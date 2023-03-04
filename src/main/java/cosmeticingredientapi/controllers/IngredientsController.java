@@ -1,8 +1,11 @@
 package cosmeticingredientapi.controllers;
 
 import cosmeticingredientapi.models.Ingredient;
-import cosmeticingredientapi.repositories.IngredientRepository;
+import cosmeticingredientapi.services.IngredientsService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,14 +14,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/ingredients")
 public class IngredientsController {
-    private final IngredientRepository ingredientsRepository;
+    private final IngredientsService ingredientsService;
 
-    public IngredientsController(IngredientRepository ingredientsRepository) {
-        this.ingredientsRepository = ingredientsRepository;
+    public IngredientsController(IngredientsService ingredientsService) {
+        this.ingredientsService = ingredientsService;
     }
 
     @GetMapping
-    public List<Ingredient> getAllIngredients() {
-        return ingredientsRepository.findAll();
+    public ResponseEntity<List<Ingredient>> getAllIngredients() {
+        return ingredientsService.getAllIngredients();
+    }
+
+    @PostMapping
+    public ResponseEntity<Object> createIngredient(@RequestBody Ingredient ingredient) {
+        return ingredientsService.createIngredient(ingredient);
     }
 }
