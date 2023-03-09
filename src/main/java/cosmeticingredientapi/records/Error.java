@@ -1,4 +1,4 @@
 package cosmeticingredientapi.records;
 
-public record Error (String message) {
+public record Error (String error) {
 }
