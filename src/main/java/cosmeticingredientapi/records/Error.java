@@ -1,4 +1,6 @@
 package cosmeticingredientapi.records;
 
-public record Error (String error) {
+import java.time.ZonedDateTime;
+
+public record Error (String error, ZonedDateTime timestamp) {
 }
