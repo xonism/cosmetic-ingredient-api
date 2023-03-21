@@ -24,7 +24,7 @@ public class RestExceptionHandler {
             case MysqlErrorNumbers.ER_DUP_ENTRY -> "Duplicate entry can not be created";
             case MysqlErrorNumbers.ER_NO_REFERENCED_ROW_2 -> "Provided ID does not exist";
             default -> throw new IllegalStateException(
-                    "Unexpected value in SQLIntegrityConstraintViolationException handler: " + exceptionErrorCode);
+                    "Undefined error code in SQLIntegrityConstraintViolationException handler: " + exceptionErrorCode);
         };
         ZonedDateTime timestamp = ZonedDateTime.now(zoneId);
         return new ResponseEntity<>(new Error(message, timestamp), HttpStatus.BAD_REQUEST);
