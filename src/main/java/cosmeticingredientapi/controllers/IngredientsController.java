@@ -1,6 +1,7 @@
 package cosmeticingredientapi.controllers;
 
 import cosmeticingredientapi.models.Ingredient;
+import cosmeticingredientapi.records.IngredientRequest;
 import cosmeticingredientapi.services.IngredientsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,7 @@ public class IngredientsController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createIngredient(@RequestBody Ingredient ingredient) {
+    public ResponseEntity<Object> createIngredient(@RequestBody IngredientRequest ingredient) {
         return ingredientsService.createIngredient(ingredient);
     }
 }
