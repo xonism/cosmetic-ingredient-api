@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/safety-levels")
+@RequestMapping("/admin/safety-levels")
 public class SafetyLevelsController {
     private final SafetyLevelRepository safetyLevelRepository;
 
