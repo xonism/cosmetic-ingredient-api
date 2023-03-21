@@ -5,6 +5,7 @@ import cosmeticingredientapi.models.SafetyLevel;
 import cosmeticingredientapi.repositories.IngredientRepository;
 import cosmeticingredientapi.repositories.SafetyLevelRepository;
 import cosmeticingredientapi.records.IngredientRequest;
+import cosmeticingredientapi.utils.SortUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class IngredientsService {
 
     public ResponseEntity<List<Ingredient>> getAllIngredients() {
         return new ResponseEntity<>(
-                ingredientsRepository.findAll(),
+                ingredientsRepository.findAll(SortUtils.SORT_ID_ASC),
                 HttpStatus.OK
         );
     }
