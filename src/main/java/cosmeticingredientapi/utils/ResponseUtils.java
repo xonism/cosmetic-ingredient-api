@@ -9,8 +9,8 @@ public class ResponseUtils {
 
     }
 
-    public static ResponseEntity<Object> createNotFoundByIdErrorResponse(String entityName, Long id) {
-        String message = String.format("%s with ID %s not found", entityName, id);
+    public static ResponseEntity<Object> createNotFoundByIdResponse(String entityName) {
+        String message = String.format("%s with provided ID not found", entityName);
         return new ResponseEntity<>(
                 new Error(message, TimeUtils.getTimestamp()),
                 HttpStatus.NOT_FOUND);

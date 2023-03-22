@@ -32,13 +32,13 @@ public class SafetyLevelsService {
             SafetyLevel safetyLevel = safetyLevelById.get();
             return new ResponseEntity<>(safetyLevel, HttpStatus.OK);
         } else {
-            return ResponseUtils.createNotFoundByIdErrorResponseEntity("Safety level", id);
+            return ResponseUtils.createNotFoundByIdResponse("Safety level");
         }
     }
 
     public ResponseEntity<Object> createSafetyLevel(SafetyLevelCreateRequest safetyLevelCreateRequest) {
         if (safetyLevelCreateRequest.name() == null) {
-            return ResponseUtils.createMustNotBeNullResponseEntity("Safety level name");
+            return ResponseUtils.createMustNotBeNullResponse("Safety level name");
         }
 
         SafetyLevel safetyLevel = new SafetyLevel();
