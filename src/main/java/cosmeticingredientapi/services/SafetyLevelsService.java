@@ -23,8 +23,7 @@ public class SafetyLevelsService {
     public ResponseEntity<List<SafetyLevel>> getAllSafetyLevels() {
         return new ResponseEntity<>(
                 safetyLevelRepository.findAll(SortUtils.SORT_ID_ASC),
-                HttpStatus.OK
-        );
+                HttpStatus.OK);
     }
 
     public ResponseEntity<Object> getSafetyLevel(Long id) {
@@ -36,8 +35,7 @@ public class SafetyLevelsService {
             String message = String.format("Safety level with ID %s not found", id);
             return new ResponseEntity<>(
                     new Error(message, TimeUtils.getTimestamp()),
-                    HttpStatus.BAD_REQUEST
-            );
+                    HttpStatus.BAD_REQUEST);
         }
     }
 }

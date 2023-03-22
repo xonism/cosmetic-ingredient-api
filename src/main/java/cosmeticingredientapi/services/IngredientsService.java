@@ -2,9 +2,9 @@ package cosmeticingredientapi.services;
 
 import cosmeticingredientapi.models.Ingredient;
 import cosmeticingredientapi.models.SafetyLevel;
+import cosmeticingredientapi.records.IngredientRequest;
 import cosmeticingredientapi.repositories.IngredientRepository;
 import cosmeticingredientapi.repositories.SafetyLevelRepository;
-import cosmeticingredientapi.records.IngredientRequest;
 import cosmeticingredientapi.utils.SortUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +25,7 @@ public class IngredientsService {
     public ResponseEntity<List<Ingredient>> getAllIngredients() {
         return new ResponseEntity<>(
                 ingredientsRepository.findAll(SortUtils.SORT_ID_ASC),
-                HttpStatus.OK
-        );
+                HttpStatus.OK);
     }
 
     public ResponseEntity<Object> createIngredient(IngredientRequest ingredientRequest) {
@@ -42,7 +41,6 @@ public class IngredientsService {
 
         return new ResponseEntity<>(
                 ingredientsRepository.save(ingredient),
-                HttpStatus.CREATED
-        );
+                HttpStatus.CREATED);
     }
 }
