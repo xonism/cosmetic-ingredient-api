@@ -41,11 +41,15 @@ public class IngredientsService {
     }
 
     public ResponseEntity<Object> createIngredient(IngredientRequest ingredientRequest) {
+        if (ingredientRequest.name() == null) {
+            return ResponseUtils.createMustNotBeNullResponseEntity("Ingredient name");
+        }
+
         SafetyLevel safetyLevel = new SafetyLevel();
         long safetyLevelId = ingredientRequest.safetyLevelId();
         safetyLevel.setId(safetyLevelId);
         safetyLevelRepository.findById(safetyLevelId)
-                .ifPresent(resultSafetyLevel -> safetyLevel.setValue(resultSafetyLevel.getValue()));
+                .ifPresent(resultSafetyLevel -> safetyLevel.setName(resultSafetyLevel.getName()));
 
         Ingredient ingredient = new Ingredient();
         ingredient.setName(ingredientRequest.name().trim().toLowerCase());

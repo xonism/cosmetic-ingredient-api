@@ -33,7 +33,7 @@ public class IngredientsController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createIngredient(@RequestBody IngredientRequest ingredient) {
-        return ingredientsService.createIngredient(ingredient);
+    public ResponseEntity<Object> createIngredient(@RequestBody IngredientRequest ingredientRequest) {
+        return ingredientsService.createIngredient(ingredientRequest);
     }
 }
