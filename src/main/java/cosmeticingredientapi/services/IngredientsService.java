@@ -2,7 +2,7 @@ package cosmeticingredientapi.services;
 
 import cosmeticingredientapi.models.Ingredient;
 import cosmeticingredientapi.models.SafetyLevel;
-import cosmeticingredientapi.records.IngredientRequest;
+import cosmeticingredientapi.records.IngredientCreateRequest;
 import cosmeticingredientapi.repositories.IngredientRepository;
 import cosmeticingredientapi.repositories.SafetyLevelRepository;
 import cosmeticingredientapi.utils.ResponseUtils;
@@ -46,13 +46,13 @@ public class IngredientsService {
         }
 
         SafetyLevel safetyLevel = new SafetyLevel();
-        long safetyLevelId = ingredientRequest.safetyLevelId();
+        long safetyLevelId = ingredientCreateRequest.safetyLevelId();
         safetyLevel.setId(safetyLevelId);
         safetyLevelRepository.findById(safetyLevelId)
                 .ifPresent(resultSafetyLevel -> safetyLevel.setName(resultSafetyLevel.getName()));
 
         Ingredient ingredient = new Ingredient();
-        ingredient.setName(ingredientRequest.name().trim().toLowerCase());
+        ingredient.setName(ingredientCreateRequest.name().trim().toLowerCase());
         ingredient.setSafetyLevel(safetyLevel);
 
         return new ResponseEntity<>(
