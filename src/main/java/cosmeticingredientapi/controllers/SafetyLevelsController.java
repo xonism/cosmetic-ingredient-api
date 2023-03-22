@@ -1,8 +1,10 @@
 package cosmeticingredientapi.controllers;
 
 import cosmeticingredientapi.models.SafetyLevel;
-import cosmeticingredientapi.repositories.SafetyLevelRepository;
+import cosmeticingredientapi.services.SafetyLevelsService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,14 +13,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin/safety-levels")
 public class SafetyLevelsController {
-    private final SafetyLevelRepository safetyLevelRepository;
+    private final SafetyLevelsService safetyLevelsService;
 
-    public SafetyLevelsController(SafetyLevelRepository safetyLevelRepository) {
-        this.safetyLevelRepository = safetyLevelRepository;
+    public SafetyLevelsController(SafetyLevelsService safetyLevelsService) {
+        this.safetyLevelsService = safetyLevelsService;
     }
 
     @GetMapping
-    public List<SafetyLevel> getAllSafetyLevels() {
-        return safetyLevelRepository.findAll();
+    public ResponseEntity<List<SafetyLevel>> getAllSafetyLevels() {
+        return safetyLevelsService.getAllSafetyLevels();
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Object> getSafetyLevel(@PathVariable Long id) {
+        return safetyLevelsService.getSafetyLevel(id);
     }
 }
