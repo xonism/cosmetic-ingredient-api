@@ -1,7 +1,7 @@
 package cosmeticingredientapi.services;
 
 import cosmeticingredientapi.models.SafetyLevel;
-import cosmeticingredientapi.records.SafetyLevelRequest;
+import cosmeticingredientapi.records.SafetyLevelCreateRequest;
 import cosmeticingredientapi.repositories.SafetyLevelRepository;
 import cosmeticingredientapi.utils.ResponseUtils;
 import cosmeticingredientapi.utils.SortUtils;
@@ -36,13 +36,13 @@ public class SafetyLevelsService {
         }
     }
 
-    public ResponseEntity<Object> createSafetyLevel(SafetyLevelRequest safetyLevelRequest) {
-        if (safetyLevelRequest.name() == null) {
+    public ResponseEntity<Object> createSafetyLevel(SafetyLevelCreateRequest safetyLevelCreateRequest) {
+        if (safetyLevelCreateRequest.name() == null) {
             return ResponseUtils.createMustNotBeNullResponseEntity("Safety level name");
         }
 
         SafetyLevel safetyLevel = new SafetyLevel();
-        safetyLevel.setName(safetyLevelRequest.name().trim().toLowerCase());
+        safetyLevel.setName(safetyLevelCreateRequest.name().trim().toLowerCase());
 
         return new ResponseEntity<>(
                 safetyLevelRepository.save(safetyLevel),
