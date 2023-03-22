@@ -1,6 +1,7 @@
 package cosmeticingredientapi.services;
 
 import cosmeticingredientapi.models.SafetyLevel;
+import cosmeticingredientapi.records.SafetyLevelRequest;
 import cosmeticingredientapi.repositories.SafetyLevelRepository;
 import cosmeticingredientapi.utils.ResponseUtils;
 import cosmeticingredientapi.utils.SortUtils;
@@ -33,5 +34,18 @@ public class SafetyLevelsService {
         } else {
             return ResponseUtils.createNotFoundByIdErrorResponseEntity("Safety level", id);
         }
+    }
+
+    public ResponseEntity<Object> createSafetyLevel(SafetyLevelRequest safetyLevelRequest) {
+        if (safetyLevelRequest.name() == null) {
+            return ResponseUtils.createMustNotBeNullResponseEntity("Safety level name");
+        }
+
+        SafetyLevel safetyLevel = new SafetyLevel();
+        safetyLevel.setName(safetyLevelRequest.name().trim().toLowerCase());
+
+        return new ResponseEntity<>(
+                safetyLevelRepository.save(safetyLevel),
+                HttpStatus.CREATED);
     }
 }
