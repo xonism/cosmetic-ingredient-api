@@ -5,12 +5,14 @@ import cosmeticingredientapi.models.SafetyLevel;
 import cosmeticingredientapi.records.IngredientRequest;
 import cosmeticingredientapi.repositories.IngredientRepository;
 import cosmeticingredientapi.repositories.SafetyLevelRepository;
+import cosmeticingredientapi.utils.ResponseUtils;
 import cosmeticingredientapi.utils.SortUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class IngredientsService {
@@ -26,6 +28,16 @@ public class IngredientsService {
         return new ResponseEntity<>(
                 ingredientsRepository.findAll(SortUtils.SORT_ID_ASC),
                 HttpStatus.OK);
+    }
+
+    public ResponseEntity<Object> getIngredient(Long id) {
+        Optional<Ingredient> ingredientById = ingredientsRepository.findById(id);
+        if (ingredientById.isPresent()) {
+            Ingredient ingredient = ingredientById.get();
+            return new ResponseEntity<>(ingredient, HttpStatus.OK);
+        } else {
+            return ResponseUtils.createNotFoundByIdErrorResponseEntity("Ingredient", id);
+        }
     }
 
     public ResponseEntity<Object> createIngredient(IngredientRequest ingredientRequest) {
