@@ -23,6 +23,7 @@ public class RestExceptionHandler {
         String message = switch (exceptionErrorCode) {
             case MysqlErrorNumbers.ER_DUP_ENTRY -> "Duplicate entry can not be created";
             case MysqlErrorNumbers.ER_NO_REFERENCED_ROW_2 -> "Provided ID does not exist";
+            case MysqlErrorNumbers.ER_BAD_NULL_ERROR -> "Required value can't be null";
             default -> throw new IllegalStateException(
                     "Undefined error code in SQLIntegrityConstraintViolationException handler: " + exceptionErrorCode);
         };
