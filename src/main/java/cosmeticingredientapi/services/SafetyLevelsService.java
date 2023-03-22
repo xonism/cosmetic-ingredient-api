@@ -1,10 +1,9 @@
 package cosmeticingredientapi.services;
 
 import cosmeticingredientapi.models.SafetyLevel;
-import cosmeticingredientapi.records.Error;
 import cosmeticingredientapi.repositories.SafetyLevelRepository;
+import cosmeticingredientapi.utils.ResponseUtils;
 import cosmeticingredientapi.utils.SortUtils;
-import cosmeticingredientapi.utils.TimeUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -32,10 +31,7 @@ public class SafetyLevelsService {
             SafetyLevel safetyLevel = safetyLevelById.get();
             return new ResponseEntity<>(safetyLevel, HttpStatus.OK);
         } else {
-            String message = String.format("Safety level with ID %s not found", id);
-            return new ResponseEntity<>(
-                    new Error(message, TimeUtils.getTimestamp()),
-                    HttpStatus.BAD_REQUEST);
+            return ResponseUtils.createNotFoundByIdErrorResponseEntity("Safety level", id);
         }
     }
 }
