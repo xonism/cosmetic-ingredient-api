@@ -3,12 +3,15 @@ package cosmeticingredientapi.exceptions;
 import com.mysql.cj.exceptions.MysqlErrorNumbers;
 import cosmeticingredientapi.records.Error;
 import cosmeticingredientapi.utils.TimeUtils;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 
 @ControllerAdvice
 public class RestExceptionHandler {
@@ -26,6 +29,18 @@ public class RestExceptionHandler {
 
         return new ResponseEntity<>(
                 new Error(message, TimeUtils.getTimestamp()),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {ConstraintViolationException.class})
+    public ResponseEntity<Error> handleConstraintViolationException(
+            ConstraintViolationException exception
+    ) {
+        List<String> exceptionMessages = exception.getConstraintViolations().stream()
+                .map(ConstraintViolation::getMessage)
+                .toList();
+        return new ResponseEntity<>(
+                new Error(exceptionMessages, TimeUtils.getTimestamp()),
                 HttpStatus.BAD_REQUEST);
     }
 }
