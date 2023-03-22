@@ -21,5 +21,5 @@ public class SafetyLevel {
 
     @NotBlank
     @Column(unique = true)
-    private String value;
+    private String name;
 }
