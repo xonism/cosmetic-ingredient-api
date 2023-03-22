@@ -32,12 +32,11 @@ public class IngredientsService {
 
     public ResponseEntity<Object> getIngredient(Long id) {
         Optional<Ingredient> ingredientById = ingredientsRepository.findById(id);
-        if (ingredientById.isPresent()) {
-            Ingredient ingredient = ingredientById.get();
-            return new ResponseEntity<>(ingredient, HttpStatus.OK);
-        } else {
-            return ResponseUtils.createNotFoundByIdErrorResponseEntity("Ingredient", id);
+        if (ingredientById.isEmpty()) {
+            return ResponseUtils.createNotFoundByIdResponse("Ingredient");
         }
+        Ingredient ingredient = ingredientById.get();
+        return new ResponseEntity<>(ingredient, HttpStatus.OK);
     }
 
     public ResponseEntity<Object> createIngredient(IngredientRequest ingredientRequest) {
