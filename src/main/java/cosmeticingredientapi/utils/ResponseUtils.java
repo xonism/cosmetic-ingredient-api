@@ -15,4 +15,11 @@ public class ResponseUtils {
                 new Error(message, TimeUtils.getTimestamp()),
                 HttpStatus.BAD_REQUEST);
     }
+
+    public static ResponseEntity<Object> createMustNotBeNullResponseEntity(String propertyName) {
+        String message = String.format("%s must not be null", propertyName);
+        return new ResponseEntity<>(
+                new Error(message, TimeUtils.getTimestamp()),
+                HttpStatus.BAD_REQUEST);
+    }
 }
