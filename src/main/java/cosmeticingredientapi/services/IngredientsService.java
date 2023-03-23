@@ -39,9 +39,9 @@ public class IngredientsService {
         return new ResponseEntity<>(ingredient, HttpStatus.OK);
     }
 
-    public ResponseEntity<Object> createIngredient(IngredientRequest ingredientRequest) {
-        if (ingredientRequest.name() == null) {
-            return ResponseUtils.createMustNotBeNullResponseEntity("Ingredient name");
+    public ResponseEntity<Object> createIngredient(IngredientCreateRequest ingredientCreateRequest) {
+        if (ingredientCreateRequest.name() == null) {
+            return ResponseUtils.createMustNotBeNullResponse("Ingredient name");
         }
 
         SafetyLevel safetyLevel = new SafetyLevel();
