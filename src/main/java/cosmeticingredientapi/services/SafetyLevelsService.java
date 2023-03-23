@@ -1,9 +1,10 @@
 package cosmeticingredientapi.services;
 
+import cosmeticingredientapi.exceptions.NotFoundByIdException;
+import cosmeticingredientapi.exceptions.NullNameException;
 import cosmeticingredientapi.models.SafetyLevel;
 import cosmeticingredientapi.records.SafetyLevelCreateRequest;
 import cosmeticingredientapi.repositories.SafetyLevelRepository;
-import cosmeticingredientapi.utils.ResponseUtils;
 import cosmeticingredientapi.utils.SortUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import java.util.Optional;
 @Service
 public class SafetyLevelsService {
     private static final String ENTITY_NAME = "Safety level";
-    
+
     private final SafetyLevelRepository safetyLevelRepository;
 
     public SafetyLevelsService(SafetyLevelRepository safetyLevelRepository) {

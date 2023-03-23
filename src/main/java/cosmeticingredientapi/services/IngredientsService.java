@@ -1,5 +1,7 @@
 package cosmeticingredientapi.services;
 
+import cosmeticingredientapi.exceptions.NotFoundByIdException;
+import cosmeticingredientapi.exceptions.NullNameException;
 import cosmeticingredientapi.models.Ingredient;
 import cosmeticingredientapi.models.SafetyLevel;
 import cosmeticingredientapi.records.IngredientCreateRequest;
