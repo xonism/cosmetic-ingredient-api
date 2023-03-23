@@ -7,8 +7,6 @@ import cosmeticingredientapi.records.IngredientCreateRequest;
 import cosmeticingredientapi.repositories.IngredientRepository;
 import cosmeticingredientapi.repositories.SafetyLevelRepository;
 import cosmeticingredientapi.utils.SortUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,22 +24,19 @@ public class IngredientsService {
         this.safetyLevelRepository = safetyLevelRepository;
     }
 
-    public ResponseEntity<List<Ingredient>> getAllIngredients() {
-        return new ResponseEntity<>(
-                ingredientsRepository.findAll(SortUtils.SORT_ID_ASC),
-                HttpStatus.OK);
+    public List<Ingredient> getAllIngredients() {
+        return ingredientsRepository.findAll(SortUtils.SORT_ID_ASC);
     }
 
-    public ResponseEntity<Object> getIngredient(Long id) {
+    public Ingredient getIngredientById(Long id) {
         Optional<Ingredient> ingredientById = ingredientsRepository.findById(id);
         if (ingredientById.isEmpty()) {
             throw new NotFoundByIdException(ENTITY_NAME);
         }
-        Ingredient ingredient = ingredientById.get();
-        return new ResponseEntity<>(ingredient, HttpStatus.OK);
+        return ingredientById.get();
     }
 
-    public ResponseEntity<Object> createIngredient(IngredientCreateRequest ingredientCreateRequest) {
+    public Ingredient createIngredient(IngredientCreateRequest ingredientCreateRequest) {
         if (ingredientCreateRequest.name() == null) {
             throw new NullNameException(ENTITY_NAME);
         }
@@ -53,8 +48,6 @@ public class IngredientsService {
         safetyLevelRepository.findById(safetyLevelId)
                 .ifPresent(ingredient::setSafetyLevel);
 
-        return new ResponseEntity<>(
-                ingredientsRepository.save(ingredient),
-                HttpStatus.CREATED);
+        return ingredientsRepository.save(ingredient);
     }
 }

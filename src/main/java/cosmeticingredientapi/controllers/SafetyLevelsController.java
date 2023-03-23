@@ -2,6 +2,7 @@ package cosmeticingredientapi.controllers;
 
 import cosmeticingredientapi.models.SafetyLevel;
 import cosmeticingredientapi.services.SafetyLevelsService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,11 +22,15 @@ public class SafetyLevelsController {
 
     @GetMapping
     public ResponseEntity<List<SafetyLevel>> getAllSafetyLevels() {
-        return safetyLevelsService.getAllSafetyLevels();
+        return new ResponseEntity<>(
+                safetyLevelsService.getAllSafetyLevels(),
+                HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Object> getSafetyLevel(@PathVariable Long id) {
-        return safetyLevelsService.getSafetyLevel(id);
+    public ResponseEntity<SafetyLevel> getSafetyLevel(@PathVariable Long id) {
+        return new ResponseEntity<>(
+                safetyLevelsService.getSafetyLevelById(id),
+                HttpStatus.OK);
     }
 }

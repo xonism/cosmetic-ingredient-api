@@ -6,8 +6,6 @@ import cosmeticingredientapi.models.SafetyLevel;
 import cosmeticingredientapi.records.SafetyLevelCreateRequest;
 import cosmeticingredientapi.repositories.SafetyLevelRepository;
 import cosmeticingredientapi.utils.SortUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,22 +21,19 @@ public class SafetyLevelsService {
         this.safetyLevelRepository = safetyLevelRepository;
     }
 
-    public ResponseEntity<List<SafetyLevel>> getAllSafetyLevels() {
-        return new ResponseEntity<>(
-                safetyLevelRepository.findAll(SortUtils.SORT_ID_ASC),
-                HttpStatus.OK);
+    public List<SafetyLevel> getAllSafetyLevels() {
+        return safetyLevelRepository.findAll(SortUtils.SORT_ID_ASC);
     }
 
-    public ResponseEntity<Object> getSafetyLevel(Long id) {
+    public SafetyLevel getSafetyLevelById(Long id) {
         Optional<SafetyLevel> safetyLevelById = safetyLevelRepository.findById(id);
         if (safetyLevelById.isEmpty()) {
             throw new NotFoundByIdException(ENTITY_NAME);
         }
-        SafetyLevel safetyLevel = safetyLevelById.get();
-        return new ResponseEntity<>(safetyLevel, HttpStatus.OK);
+        return safetyLevelById.get();
     }
 
-    public ResponseEntity<Object> createSafetyLevel(SafetyLevelCreateRequest safetyLevelCreateRequest) {
+    public SafetyLevel createSafetyLevel(SafetyLevelCreateRequest safetyLevelCreateRequest) {
         if (safetyLevelCreateRequest.name() == null) {
             throw new NullNameException(ENTITY_NAME);
         }
@@ -46,8 +41,6 @@ public class SafetyLevelsService {
         SafetyLevel safetyLevel = new SafetyLevel();
         safetyLevel.setName(safetyLevelCreateRequest.name().trim().toLowerCase());
 
-        return new ResponseEntity<>(
-                safetyLevelRepository.save(safetyLevel),
-                HttpStatus.CREATED);
+        return safetyLevelRepository.save(safetyLevel);
     }
 }

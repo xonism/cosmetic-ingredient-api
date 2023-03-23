@@ -1,7 +1,9 @@
 package cosmeticingredientapi.controllers.admin;
 
+import cosmeticingredientapi.models.Ingredient;
 import cosmeticingredientapi.records.IngredientCreateRequest;
 import cosmeticingredientapi.services.IngredientsService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +20,9 @@ public class AdminIngredientsController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createIngredient(@RequestBody IngredientCreateRequest ingredientCreateRequest) {
-        return ingredientsService.createIngredient(ingredientCreateRequest);
+    public ResponseEntity<Ingredient> createIngredient(@RequestBody IngredientCreateRequest ingredientCreateRequest) {
+        return new ResponseEntity<>(
+                ingredientsService.createIngredient(ingredientCreateRequest),
+                HttpStatus.CREATED);
     }
 }

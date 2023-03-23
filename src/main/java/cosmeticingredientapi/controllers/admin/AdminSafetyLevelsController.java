@@ -1,7 +1,9 @@
 package cosmeticingredientapi.controllers.admin;
 
+import cosmeticingredientapi.models.SafetyLevel;
 import cosmeticingredientapi.records.SafetyLevelCreateRequest;
 import cosmeticingredientapi.services.SafetyLevelsService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +20,9 @@ public class AdminSafetyLevelsController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createSafetyLevel(@RequestBody SafetyLevelCreateRequest safetyLevelCreateRequest) {
-        return safetyLevelsService.createSafetyLevel(safetyLevelCreateRequest);
+    public ResponseEntity<SafetyLevel> createSafetyLevel(@RequestBody SafetyLevelCreateRequest safetyLevelCreateRequest) {
+        return new ResponseEntity<>(
+                safetyLevelsService.createSafetyLevel(safetyLevelCreateRequest),
+                HttpStatus.CREATED);
     }
 }
