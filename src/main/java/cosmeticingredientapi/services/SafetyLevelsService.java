@@ -14,6 +14,8 @@ import java.util.Optional;
 
 @Service
 public class SafetyLevelsService {
+    private static final String ENTITY_NAME = "Safety level";
+    
     private final SafetyLevelRepository safetyLevelRepository;
 
     public SafetyLevelsService(SafetyLevelRepository safetyLevelRepository) {

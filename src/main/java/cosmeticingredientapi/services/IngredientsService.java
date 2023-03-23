@@ -16,6 +16,8 @@ import java.util.Optional;
 
 @Service
 public class IngredientsService {
+    private static final String ENTITY_NAME = "Ingredient";
+
     private final IngredientRepository ingredientsRepository;
     private final SafetyLevelRepository safetyLevelRepository;
 
