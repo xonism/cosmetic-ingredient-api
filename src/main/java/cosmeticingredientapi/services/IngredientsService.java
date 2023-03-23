@@ -3,11 +3,9 @@ package cosmeticingredientapi.services;
 import cosmeticingredientapi.exceptions.NotFoundByIdException;
 import cosmeticingredientapi.exceptions.NullNameException;
 import cosmeticingredientapi.models.Ingredient;
-import cosmeticingredientapi.models.SafetyLevel;
 import cosmeticingredientapi.records.IngredientCreateRequest;
 import cosmeticingredientapi.repositories.IngredientRepository;
 import cosmeticingredientapi.repositories.SafetyLevelRepository;
-import cosmeticingredientapi.utils.ResponseUtils;
 import cosmeticingredientapi.utils.SortUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,15 +46,12 @@ public class IngredientsService {
             throw new NullNameException(ENTITY_NAME);
         }
 
-        SafetyLevel safetyLevel = new SafetyLevel();
-        long safetyLevelId = ingredientCreateRequest.safetyLevelId();
-        safetyLevel.setId(safetyLevelId);
-        safetyLevelRepository.findById(safetyLevelId)
-                .ifPresent(resultSafetyLevel -> safetyLevel.setName(resultSafetyLevel.getName()));
-
         Ingredient ingredient = new Ingredient();
         ingredient.setName(ingredientCreateRequest.name().trim().toLowerCase());
-        ingredient.setSafetyLevel(safetyLevel);
+
+        long safetyLevelId = ingredientCreateRequest.safetyLevelId();
+        safetyLevelRepository.findById(safetyLevelId)
+                .ifPresent(ingredient::setSafetyLevel);
 
         return new ResponseEntity<>(
                 ingredientsRepository.save(ingredient),
