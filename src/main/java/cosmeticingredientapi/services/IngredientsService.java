@@ -33,7 +33,7 @@ public class IngredientsService {
     public ResponseEntity<Object> getIngredient(Long id) {
         Optional<Ingredient> ingredientById = ingredientsRepository.findById(id);
         if (ingredientById.isEmpty()) {
-            return ResponseUtils.createNotFoundByIdResponse("Ingredient");
+            throw new NotFoundByIdException(ENTITY_NAME);
         }
         Ingredient ingredient = ingredientById.get();
         return new ResponseEntity<>(ingredient, HttpStatus.OK);
@@ -41,7 +41,7 @@ public class IngredientsService {
 
     public ResponseEntity<Object> createIngredient(IngredientCreateRequest ingredientCreateRequest) {
         if (ingredientCreateRequest.name() == null) {
-            return ResponseUtils.createMustNotBeNullResponse("Ingredient name");
+            throw new NullNameException(ENTITY_NAME);
         }
 
         SafetyLevel safetyLevel = new SafetyLevel();

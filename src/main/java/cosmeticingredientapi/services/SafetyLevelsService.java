@@ -29,7 +29,7 @@ public class SafetyLevelsService {
     public ResponseEntity<Object> getSafetyLevel(Long id) {
         Optional<SafetyLevel> safetyLevelById = safetyLevelRepository.findById(id);
         if (safetyLevelById.isEmpty()) {
-            return ResponseUtils.createNotFoundByIdResponse("Safety level");
+            throw new NotFoundByIdException(ENTITY_NAME);
         }
         SafetyLevel safetyLevel = safetyLevelById.get();
         return new ResponseEntity<>(safetyLevel, HttpStatus.OK);
@@ -37,7 +37,7 @@ public class SafetyLevelsService {
 
     public ResponseEntity<Object> createSafetyLevel(SafetyLevelCreateRequest safetyLevelCreateRequest) {
         if (safetyLevelCreateRequest.name() == null) {
-            return ResponseUtils.createMustNotBeNullResponse("Safety level name");
+            throw new NullNameException(ENTITY_NAME);
         }
 
         SafetyLevel safetyLevel = new SafetyLevel();
