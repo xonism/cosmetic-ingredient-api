@@ -62,6 +62,4 @@ public class RestExceptionHandler {
                 new Error(exception.getMessage(), TimeUtils.getTimestamp()),
                 HttpStatus.NOT_FOUND);
     }
-
-    // @ExceptionHandler(FatalException.class)
 }
