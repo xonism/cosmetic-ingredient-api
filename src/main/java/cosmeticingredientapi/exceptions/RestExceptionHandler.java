@@ -23,7 +23,7 @@ public class RestExceptionHandler {
         String message = switch (exceptionErrorCode) {
             case MysqlErrorNumbers.ER_DUP_ENTRY -> "Duplicate entry can not be created";
             case MysqlErrorNumbers.ER_NO_REFERENCED_ROW_2 -> "Provided ID does not exist";
-            case MysqlErrorNumbers.ER_BAD_NULL_ERROR -> "Required value can't be null";
+            case MysqlErrorNumbers.ER_BAD_NULL_ERROR -> "Provided invalid value produced a null value";
             default -> throw new IllegalStateException(
                     "Undefined error code in SQLIntegrityConstraintViolationException handler: " + exceptionErrorCode);
         };
@@ -44,4 +44,24 @@ public class RestExceptionHandler {
                 new Error(exceptionMessages, TimeUtils.getTimestamp()),
                 HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(value = {NullNameException.class})
+    public ResponseEntity<Error> handleNullValueException(
+            NullNameException exception
+    ) {
+        return new ResponseEntity<>(
+                new Error(exception.getMessage(), TimeUtils.getTimestamp()),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {NotFoundByIdException.class})
+    public ResponseEntity<Error> handleNotFoundByIdException(
+            NotFoundByIdException exception
+    ) {
+        return new ResponseEntity<>(
+                new Error(exception.getMessage(), TimeUtils.getTimestamp()),
+                HttpStatus.NOT_FOUND);
+    }
+
+    // @ExceptionHandler(FatalException.class)
 }
