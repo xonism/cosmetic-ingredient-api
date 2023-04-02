@@ -62,4 +62,12 @@ public class RestExceptionHandler {
                 new Error(exception.getMessage(), TimeUtils.getTimestamp()),
                 HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(value = {HttpMessageNotReadableException.class})
+    public ResponseEntity<Error> handleHttpMessageNotReadableException() {
+        String message = "Missing value in request body";
+        return new ResponseEntity<>(
+                new Error(message, TimeUtils.getTimestamp()),
+                HttpStatus.BAD_REQUEST);
+    }
 }
