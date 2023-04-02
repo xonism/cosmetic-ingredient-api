@@ -37,10 +37,6 @@ public class IngredientsService {
     }
 
     public Ingredient createIngredient(IngredientCreateRequest ingredientCreateRequest) {
-        if (ingredientCreateRequest.name() == null) {
-            throw new NullNameException(ENTITY_NAME);
-        }
-
         Ingredient ingredient = new Ingredient();
         ingredient.setName(ingredientCreateRequest.name().trim().toLowerCase());
 
