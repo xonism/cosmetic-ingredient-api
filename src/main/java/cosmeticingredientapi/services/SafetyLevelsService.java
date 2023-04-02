@@ -1,7 +1,6 @@
 package cosmeticingredientapi.services;
 
 import cosmeticingredientapi.exceptions.NotFoundByIdException;
-import cosmeticingredientapi.exceptions.NullNameException;
 import cosmeticingredientapi.models.SafetyLevel;
 import cosmeticingredientapi.records.SafetyLevelCreateRequest;
 import cosmeticingredientapi.repositories.SafetyLevelRepository;
@@ -34,10 +33,6 @@ public class SafetyLevelsService {
     }
 
     public SafetyLevel createSafetyLevel(SafetyLevelCreateRequest safetyLevelCreateRequest) {
-        if (safetyLevelCreateRequest.name() == null) {
-            throw new NullNameException(ENTITY_NAME);
-        }
-
         SafetyLevel safetyLevel = new SafetyLevel();
         safetyLevel.setName(safetyLevelCreateRequest.name().trim().toLowerCase());
 
