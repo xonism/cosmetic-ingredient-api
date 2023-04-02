@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/admin/safety-levels")
+@RequestMapping(
+        path = "/admin/safety-levels",
+        consumes = {MediaType.APPLICATION_JSON_VALUE},
+        produces = {MediaType.APPLICATION_JSON_VALUE})
 public class AdminSafetyLevelsController {
 
     private final SafetyLevelsService safetyLevelsService;
@@ -21,9 +24,7 @@ public class AdminSafetyLevelsController {
         this.safetyLevelsService = safetyLevelsService;
     }
 
-    @PostMapping(
-            consumes = { MediaType.APPLICATION_JSON_VALUE },
-            produces = { MediaType.APPLICATION_JSON_VALUE })
+    @PostMapping
     public ResponseEntity<SafetyLevel> createSafetyLevel(@RequestBody SafetyLevelCreateRequest safetyLevelCreateRequest) {
         return new ResponseEntity<>(
                 safetyLevelsService.createSafetyLevel(safetyLevelCreateRequest),

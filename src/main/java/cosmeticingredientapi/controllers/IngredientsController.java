@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/ingredients")
+@RequestMapping(
+        path = "/api/v1/ingredients",
+        produces = {MediaType.APPLICATION_JSON_VALUE})
 public class IngredientsController {
 
     private final IngredientsService ingredientsService;
@@ -22,14 +24,14 @@ public class IngredientsController {
         this.ingredientsService = ingredientsService;
     }
 
-    @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping
     public ResponseEntity<List<Ingredient>> getAllIngredients() {
         return new ResponseEntity<>(
                 ingredientsService.getAllIngredients(),
                 HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/{id}")
     public ResponseEntity<Ingredient> getIngredient(@PathVariable Long id) {
         return new ResponseEntity<>(
                 ingredientsService.getIngredientById(id),

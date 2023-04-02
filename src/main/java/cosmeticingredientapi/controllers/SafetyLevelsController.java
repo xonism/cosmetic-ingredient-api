@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/safety-levels")
+@RequestMapping(
+        path = "/api/v1/safety-levels",
+        produces = {MediaType.APPLICATION_JSON_VALUE})
 public class SafetyLevelsController {
 
     private final SafetyLevelsService safetyLevelsService;
@@ -22,14 +24,14 @@ public class SafetyLevelsController {
         this.safetyLevelsService = safetyLevelsService;
     }
 
-    @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping
     public ResponseEntity<List<SafetyLevel>> getAllSafetyLevels() {
         return new ResponseEntity<>(
                 safetyLevelsService.getAllSafetyLevels(),
                 HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/{id}")
     public ResponseEntity<SafetyLevel> getSafetyLevel(@PathVariable Long id) {
         return new ResponseEntity<>(
                 safetyLevelsService.getSafetyLevelById(id),

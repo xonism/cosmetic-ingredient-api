@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/admin/ingredients")
+@RequestMapping(
+        path = "/admin/ingredients",
+        consumes = {MediaType.APPLICATION_JSON_VALUE},
+        produces = {MediaType.APPLICATION_JSON_VALUE})
 public class AdminIngredientsController {
 
     private final IngredientsService ingredientsService;
@@ -21,9 +24,7 @@ public class AdminIngredientsController {
         this.ingredientsService = ingredientsService;
     }
 
-    @PostMapping(
-            consumes = { MediaType.APPLICATION_JSON_VALUE },
-            produces = { MediaType.APPLICATION_JSON_VALUE })
+    @PostMapping
     public ResponseEntity<Ingredient> createIngredient(@RequestBody IngredientCreateRequest ingredientCreateRequest) {
         return new ResponseEntity<>(
                 ingredientsService.createIngredient(ingredientCreateRequest),
