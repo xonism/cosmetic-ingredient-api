@@ -1,12 +1,16 @@
 package cosmeticingredientapi.controllers.admin;
 
+import cosmeticingredientapi.exceptions.IdMismatchException;
 import cosmeticingredientapi.models.Ingredient;
 import cosmeticingredientapi.records.IngredientCreateRequest;
+import cosmeticingredientapi.records.IngredientUpdateRequest;
 import cosmeticingredientapi.services.IngredientsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,5 +33,19 @@ public class AdminIngredientsController {
         return new ResponseEntity<>(
                 ingredientsService.createIngredient(ingredientCreateRequest),
                 HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Ingredient> updateIngredient(
+            @PathVariable Long id,
+            @RequestBody IngredientUpdateRequest ingredientUpdateRequest
+    ) {
+        if (!ingredientUpdateRequest.id().equals(id)) {
+            throw new IdMismatchException();
+        }
+
+        return new ResponseEntity<>(
+                ingredientsService.updateIngredient(ingredientUpdateRequest),
+                HttpStatus.OK);
     }
 }
