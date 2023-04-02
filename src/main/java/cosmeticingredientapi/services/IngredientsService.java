@@ -1,11 +1,11 @@
 package cosmeticingredientapi.services;
 
 import cosmeticingredientapi.exceptions.NotFoundByIdException;
-import cosmeticingredientapi.exceptions.NullNameException;
 import cosmeticingredientapi.models.Ingredient;
+import cosmeticingredientapi.models.SafetyLevel;
 import cosmeticingredientapi.records.IngredientCreateRequest;
+import cosmeticingredientapi.records.IngredientUpdateRequest;
 import cosmeticingredientapi.repositories.IngredientRepository;
-import cosmeticingredientapi.repositories.SafetyLevelRepository;
 import cosmeticingredientapi.utils.SortUtils;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +14,15 @@ import java.util.Optional;
 
 @Service
 public class IngredientsService {
+
     private static final String ENTITY_NAME = "Ingredient";
 
     private final IngredientRepository ingredientsRepository;
-    private final SafetyLevelRepository safetyLevelRepository;
+    private final SafetyLevelsService safetyLevelsService;
 
-    public IngredientsService(IngredientRepository ingredientsRepository, SafetyLevelRepository safetyLevelRepository) {
+    public IngredientsService(IngredientRepository ingredientsRepository, SafetyLevelsService safetyLevelsService) {
         this.ingredientsRepository = ingredientsRepository;
-        this.safetyLevelRepository = safetyLevelRepository;
+        this.safetyLevelsService = safetyLevelsService;
     }
 
     public List<Ingredient> getAllIngredients() {
@@ -29,20 +30,19 @@ public class IngredientsService {
     }
 
     public Ingredient getIngredientById(Long id) {
-        Optional<Ingredient> ingredientById = ingredientsRepository.findById(id);
-        if (ingredientById.isEmpty()) {
+        Optional<Ingredient> ingredient = ingredientsRepository.findById(id);
+        if (ingredient.isEmpty()) {
             throw new NotFoundByIdException(ENTITY_NAME);
         }
-        return ingredientById.get();
+        return ingredient.get();
     }
 
     public Ingredient createIngredient(IngredientCreateRequest ingredientCreateRequest) {
         Ingredient ingredient = new Ingredient();
         ingredient.setName(ingredientCreateRequest.name().trim().toLowerCase());
 
-        long safetyLevelId = ingredientCreateRequest.safetyLevelId();
-        safetyLevelRepository.findById(safetyLevelId)
-                .ifPresent(ingredient::setSafetyLevel);
+        SafetyLevel safetyLevel = safetyLevelsService.getSafetyLevelById(ingredientCreateRequest.safetyLevelId());
+        ingredient.setSafetyLevel(safetyLevel);
 
         return ingredientsRepository.save(ingredient);
     }
