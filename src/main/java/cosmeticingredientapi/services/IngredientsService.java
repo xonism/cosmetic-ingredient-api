@@ -50,4 +50,14 @@ public class IngredientsService {
 
         return ingredientsRepository.save(ingredient);
     }
+
+    public Ingredient updateIngredient(IngredientUpdateRequest ingredientUpdateRequest) {
+        Ingredient ingredient = getIngredientById(ingredientUpdateRequest.id());
+        ingredient.setName(ingredientUpdateRequest.name().trim().toLowerCase());
+
+        SafetyLevel safetyLevel = safetyLevelsService.getSafetyLevelById(ingredientUpdateRequest.safetyLevelId());
+        ingredient.setSafetyLevel(safetyLevel);
+
+        return ingredientsRepository.save(ingredient);
+    }
 }
