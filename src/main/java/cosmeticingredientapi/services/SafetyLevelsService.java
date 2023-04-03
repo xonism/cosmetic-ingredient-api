@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @Service
 public class SafetyLevelsService {
+
     private static final String ENTITY_NAME = "Safety level";
 
     private final SafetyLevelRepository safetyLevelRepository;
@@ -45,5 +46,9 @@ public class SafetyLevelsService {
         safetyLevel.setName(safetyLevelUpdateRequest.name().trim().toLowerCase());
 
         return safetyLevelRepository.save(safetyLevel);
+    }
+
+    public void deleteSafetyLevel(Long id) {
+        safetyLevelRepository.deleteById(id);
     }
 }

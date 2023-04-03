@@ -17,7 +17,7 @@ import java.util.List;
 
 @ControllerAdvice
 public class RestExceptionHandler {
-    
+
     @ExceptionHandler(value = {SQLIntegrityConstraintViolationException.class})
     public ResponseEntity<Error> handleSQLIntegrityConstraintViolationException(
             SQLIntegrityConstraintViolationException exception
