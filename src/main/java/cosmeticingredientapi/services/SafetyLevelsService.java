@@ -3,6 +3,7 @@ package cosmeticingredientapi.services;
 import cosmeticingredientapi.exceptions.NotFoundByIdException;
 import cosmeticingredientapi.models.SafetyLevel;
 import cosmeticingredientapi.records.SafetyLevelCreateRequest;
+import cosmeticingredientapi.records.SafetyLevelUpdateRequest;
 import cosmeticingredientapi.repositories.SafetyLevelRepository;
 import cosmeticingredientapi.utils.SortUtils;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,13 @@ public class SafetyLevelsService {
     public SafetyLevel createSafetyLevel(SafetyLevelCreateRequest safetyLevelCreateRequest) {
         SafetyLevel safetyLevel = new SafetyLevel();
         safetyLevel.setName(safetyLevelCreateRequest.name().trim().toLowerCase());
+
+        return safetyLevelRepository.save(safetyLevel);
+    }
+
+    public SafetyLevel updateSafetyLevel(SafetyLevelUpdateRequest safetyLevelUpdateRequest) {
+        SafetyLevel safetyLevel = getSafetyLevelById(safetyLevelUpdateRequest.id());
+        safetyLevel.setName(safetyLevelUpdateRequest.name().trim().toLowerCase());
 
         return safetyLevelRepository.save(safetyLevel);
     }
