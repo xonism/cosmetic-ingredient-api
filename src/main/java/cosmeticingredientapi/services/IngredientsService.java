@@ -56,4 +56,8 @@ public class IngredientsService {
 
         return ingredientsRepository.save(ingredient);
     }
+
+    public void deleteIngredient(Long id) {
+        ingredientsRepository.deleteById(id);
+    }
 }
