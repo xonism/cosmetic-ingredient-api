@@ -1,12 +1,16 @@
 package cosmeticingredientapi.controllers.admin;
 
+import cosmeticingredientapi.exceptions.IdMismatchException;
 import cosmeticingredientapi.models.SafetyLevel;
 import cosmeticingredientapi.records.SafetyLevelCreateRequest;
+import cosmeticingredientapi.records.SafetyLevelUpdateRequest;
 import cosmeticingredientapi.services.SafetyLevelsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,5 +33,19 @@ public class AdminSafetyLevelsController {
         return new ResponseEntity<>(
                 safetyLevelsService.createSafetyLevel(safetyLevelCreateRequest),
                 HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<SafetyLevel> updateSafetyLevel(
+            @PathVariable Long id,
+            @RequestBody SafetyLevelUpdateRequest safetyLevelUpdateRequest
+    ) {
+        if (!safetyLevelUpdateRequest.id().equals(id)) {
+            throw new IdMismatchException();
+        }
+
+        return new ResponseEntity<>(
+                safetyLevelsService.updateSafetyLevel(safetyLevelUpdateRequest),
+                HttpStatus.OK);
     }
 }
