@@ -5,6 +5,7 @@ import cosmeticingredientapi.records.Error;
 import cosmeticingredientapi.utils.TimeUtils;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @ControllerAdvice
 public class RestExceptionHandler {
+    
     @ExceptionHandler(value = {SQLIntegrityConstraintViolationException.class})
     public ResponseEntity<Error> handleSQLIntegrityConstraintViolationException(
             SQLIntegrityConstraintViolationException exception
@@ -67,6 +69,14 @@ public class RestExceptionHandler {
     @ExceptionHandler(value = {HttpMessageNotReadableException.class})
     public ResponseEntity<Error> handleHttpMessageNotReadableException() {
         String message = "Missing value in request body";
+        return new ResponseEntity<>(
+                new Error(message, TimeUtils.getTimestamp()),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {EmptyResultDataAccessException.class})
+    public ResponseEntity<Error> handleEmptyResultDataAccessException() {
+        String message = "Entity with provided ID not found";
         return new ResponseEntity<>(
                 new Error(message, TimeUtils.getTimestamp()),
                 HttpStatus.BAD_REQUEST);
