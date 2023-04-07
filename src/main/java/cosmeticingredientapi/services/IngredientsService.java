@@ -1,14 +1,12 @@
 package cosmeticingredientapi.services;
 
+import cosmeticingredientapi.exceptions.NotFoundByIdException;
 import cosmeticingredientapi.models.Ingredient;
 import cosmeticingredientapi.models.SafetyLevel;
 import cosmeticingredientapi.records.IngredientCreateRequest;
+import cosmeticingredientapi.records.IngredientUpdateRequest;
 import cosmeticingredientapi.repositories.IngredientRepository;
-import cosmeticingredientapi.repositories.SafetyLevelRepository;
-import cosmeticingredientapi.utils.ResponseUtils;
 import cosmeticingredientapi.utils.SortUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,46 +14,50 @@ import java.util.Optional;
 
 @Service
 public class IngredientsService {
+
+    private static final String ENTITY_NAME = "Ingredient";
+
     private final IngredientRepository ingredientsRepository;
-    private final SafetyLevelRepository safetyLevelRepository;
+    private final SafetyLevelsService safetyLevelsService;
 
-    public IngredientsService(IngredientRepository ingredientsRepository, SafetyLevelRepository safetyLevelRepository) {
+    public IngredientsService(IngredientRepository ingredientsRepository, SafetyLevelsService safetyLevelsService) {
         this.ingredientsRepository = ingredientsRepository;
-        this.safetyLevelRepository = safetyLevelRepository;
+        this.safetyLevelsService = safetyLevelsService;
     }
 
-    public ResponseEntity<List<Ingredient>> getAllIngredients() {
-        return new ResponseEntity<>(
-                ingredientsRepository.findAll(SortUtils.SORT_ID_ASC),
-                HttpStatus.OK);
+    public List<Ingredient> getAllIngredients() {
+        return ingredientsRepository.findAll(SortUtils.SORT_ID_ASC);
     }
 
-    public ResponseEntity<Object> getIngredient(Long id) {
-        Optional<Ingredient> ingredientById = ingredientsRepository.findById(id);
-        if (ingredientById.isEmpty()) {
-            return ResponseUtils.createNotFoundByIdResponse("Ingredient");
+    public Ingredient getIngredientById(Long id) {
+        Optional<Ingredient> ingredient = ingredientsRepository.findById(id);
+        if (ingredient.isEmpty()) {
+            throw new NotFoundByIdException(ENTITY_NAME);
         }
-        Ingredient ingredient = ingredientById.get();
-        return new ResponseEntity<>(ingredient, HttpStatus.OK);
+        return ingredient.get();
     }
 
-    public ResponseEntity<Object> createIngredient(IngredientCreateRequest ingredientCreateRequest) {
-        if (ingredientCreateRequest.name() == null) {
-            return ResponseUtils.createMustNotBeNullResponse("Ingredient name");
-        }
-
-        SafetyLevel safetyLevel = new SafetyLevel();
-        long safetyLevelId = ingredientCreateRequest.safetyLevelId();
-        safetyLevel.setId(safetyLevelId);
-        safetyLevelRepository.findById(safetyLevelId)
-                .ifPresent(resultSafetyLevel -> safetyLevel.setName(resultSafetyLevel.getName()));
-
+    public Ingredient createIngredient(IngredientCreateRequest ingredientCreateRequest) {
         Ingredient ingredient = new Ingredient();
         ingredient.setName(ingredientCreateRequest.name().trim().toLowerCase());
+
+        SafetyLevel safetyLevel = safetyLevelsService.getSafetyLevelById(ingredientCreateRequest.safetyLevelId());
         ingredient.setSafetyLevel(safetyLevel);
 
-        return new ResponseEntity<>(
-                ingredientsRepository.save(ingredient),
-                HttpStatus.CREATED);
+        return ingredientsRepository.save(ingredient);
+    }
+
+    public Ingredient updateIngredient(IngredientUpdateRequest ingredientUpdateRequest) {
+        Ingredient ingredient = getIngredientById(ingredientUpdateRequest.id());
+        ingredient.setName(ingredientUpdateRequest.name().trim().toLowerCase());
+
+        SafetyLevel safetyLevel = safetyLevelsService.getSafetyLevelById(ingredientUpdateRequest.safetyLevelId());
+        ingredient.setSafetyLevel(safetyLevel);
+
+        return ingredientsRepository.save(ingredient);
+    }
+
+    public void deleteIngredient(Long id) {
+        ingredientsRepository.deleteById(id);
     }
 }

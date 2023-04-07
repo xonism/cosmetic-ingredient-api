@@ -2,9 +2,10 @@ package cosmeticingredientapi.records;
 
 import java.util.Objects;
 
-public record IngredientCreateRequest(String name, Long safetyLevelId) {
+public record IngredientUpdateRequest(Long id, String name, Long safetyLevelId) {
 
-    public IngredientCreateRequest {
+    public IngredientUpdateRequest {
+        Objects.requireNonNull(id);
         Objects.requireNonNull(name);
         Objects.requireNonNull(safetyLevelId);
     }

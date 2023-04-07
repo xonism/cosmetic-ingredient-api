@@ -2,6 +2,8 @@ package cosmeticingredientapi.controllers;
 
 import cosmeticingredientapi.models.Ingredient;
 import cosmeticingredientapi.services.IngredientsService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,8 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/ingredients")
+@RequestMapping(
+        path = "/api/v1/ingredients",
+        produces = {MediaType.APPLICATION_JSON_VALUE})
 public class IngredientsController {
+
     private final IngredientsService ingredientsService;
 
     public IngredientsController(IngredientsService ingredientsService) {
@@ -21,11 +26,15 @@ public class IngredientsController {
 
     @GetMapping
     public ResponseEntity<List<Ingredient>> getAllIngredients() {
-        return ingredientsService.getAllIngredients();
+        return new ResponseEntity<>(
+                ingredientsService.getAllIngredients(),
+                HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Object> getIngredient(@PathVariable Long id) {
-        return ingredientsService.getIngredient(id);
+    public ResponseEntity<Ingredient> getIngredient(@PathVariable Long id) {
+        return new ResponseEntity<>(
+                ingredientsService.getIngredientById(id),
+                HttpStatus.OK);
     }
 }

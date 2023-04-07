@@ -1,12 +1,11 @@
 package cosmeticingredientapi.services;
 
+import cosmeticingredientapi.exceptions.NotFoundByIdException;
 import cosmeticingredientapi.models.SafetyLevel;
 import cosmeticingredientapi.records.SafetyLevelCreateRequest;
+import cosmeticingredientapi.records.SafetyLevelUpdateRequest;
 import cosmeticingredientapi.repositories.SafetyLevelRepository;
-import cosmeticingredientapi.utils.ResponseUtils;
 import cosmeticingredientapi.utils.SortUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,37 +13,42 @@ import java.util.Optional;
 
 @Service
 public class SafetyLevelsService {
+
+    private static final String ENTITY_NAME = "Safety level";
+
     private final SafetyLevelRepository safetyLevelRepository;
 
     public SafetyLevelsService(SafetyLevelRepository safetyLevelRepository) {
         this.safetyLevelRepository = safetyLevelRepository;
     }
 
-    public ResponseEntity<List<SafetyLevel>> getAllSafetyLevels() {
-        return new ResponseEntity<>(
-                safetyLevelRepository.findAll(SortUtils.SORT_ID_ASC),
-                HttpStatus.OK);
+    public List<SafetyLevel> getAllSafetyLevels() {
+        return safetyLevelRepository.findAll(SortUtils.SORT_ID_ASC);
     }
 
-    public ResponseEntity<Object> getSafetyLevel(Long id) {
+    public SafetyLevel getSafetyLevelById(Long id) {
         Optional<SafetyLevel> safetyLevelById = safetyLevelRepository.findById(id);
         if (safetyLevelById.isEmpty()) {
-            return ResponseUtils.createNotFoundByIdResponse("Safety level");
+            throw new NotFoundByIdException(ENTITY_NAME);
         }
-        SafetyLevel safetyLevel = safetyLevelById.get();
-        return new ResponseEntity<>(safetyLevel, HttpStatus.OK);
+        return safetyLevelById.get();
     }
 
-    public ResponseEntity<Object> createSafetyLevel(SafetyLevelCreateRequest safetyLevelCreateRequest) {
-        if (safetyLevelCreateRequest.name() == null) {
-            return ResponseUtils.createMustNotBeNullResponse("Safety level name");
-        }
-
+    public SafetyLevel createSafetyLevel(SafetyLevelCreateRequest safetyLevelCreateRequest) {
         SafetyLevel safetyLevel = new SafetyLevel();
         safetyLevel.setName(safetyLevelCreateRequest.name().trim().toLowerCase());
 
-        return new ResponseEntity<>(
-                safetyLevelRepository.save(safetyLevel),
-                HttpStatus.CREATED);
+        return safetyLevelRepository.save(safetyLevel);
+    }
+
+    public SafetyLevel updateSafetyLevel(SafetyLevelUpdateRequest safetyLevelUpdateRequest) {
+        SafetyLevel safetyLevel = getSafetyLevelById(safetyLevelUpdateRequest.id());
+        safetyLevel.setName(safetyLevelUpdateRequest.name().trim().toLowerCase());
+
+        return safetyLevelRepository.save(safetyLevel);
+    }
+
+    public void deleteSafetyLevel(Long id) {
+        safetyLevelRepository.deleteById(id);
     }
 }
