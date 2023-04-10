@@ -20,6 +20,6 @@ public class SafetyLevel {
     private long id;
 
     @NotBlank
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
 }
