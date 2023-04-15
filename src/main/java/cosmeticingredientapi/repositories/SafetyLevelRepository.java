@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SafetyLevelRepository extends JpaRepository<SafetyLevel, Long> {
+
+    SafetyLevel findByName(String name);
 }
