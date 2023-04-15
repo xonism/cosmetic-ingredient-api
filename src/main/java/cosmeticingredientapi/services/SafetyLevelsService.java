@@ -34,6 +34,10 @@ public class SafetyLevelsService {
         return safetyLevelById.get();
     }
 
+    public SafetyLevel getUncategorizedSafetyLevel() {
+        return safetyLevelRepository.findByName(cosmeticingredientapi.enums.SafetyLevel.UNCATEGORIZED.name());
+    }
+
     public SafetyLevel createSafetyLevel(SafetyLevelCreateRequest safetyLevelCreateRequest) {
         SafetyLevel safetyLevel = new SafetyLevel();
         safetyLevel.setName(safetyLevelCreateRequest.name().trim().toLowerCase());
