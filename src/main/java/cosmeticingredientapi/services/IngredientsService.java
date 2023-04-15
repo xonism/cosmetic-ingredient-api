@@ -54,7 +54,7 @@ public class IngredientsService {
         Ingredient ingredient = getById(ingredientUpdateRequest.id());
         ingredient.setName(ingredientUpdateRequest.name().trim().toLowerCase());
 
-        SafetyLevel safetyLevel = safetyLevelsService.getById(ingredientUpdateRequest.safetyLevelId());
+        SafetyLevel safetyLevel = safetyLevelsService.getByName(ingredientUpdateRequest.safetyLevelName());
         ingredient.setSafetyLevel(safetyLevel);
 
         return ingredientsRepository.save(ingredient);
