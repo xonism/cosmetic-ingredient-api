@@ -12,7 +12,7 @@ public enum SafetyLevel {
 
     private final String name;
 
-    SafetyLevel(String name) {
+    SafetyLevel (String name) {
         this.name = name;
     }
 }
