@@ -4,13 +4,16 @@ import cosmeticingredientapi.exceptions.NotFoundByIdException;
 import cosmeticingredientapi.models.Ingredient;
 import cosmeticingredientapi.models.SafetyLevel;
 import cosmeticingredientapi.records.IngredientCreateRequest;
+import cosmeticingredientapi.records.IngredientRequest;
 import cosmeticingredientapi.records.IngredientUpdateRequest;
 import cosmeticingredientapi.repositories.IngredientRepository;
 import cosmeticingredientapi.utils.SortUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class IngredientsService {
@@ -59,5 +62,29 @@ public class IngredientsService {
 
     public void deleteIngredient(Long id) {
         ingredientsRepository.deleteById(id);
+    }
+
+    public List<Ingredient> getIngredientsWithSafetyLevels(IngredientRequest ingredientRequest) {
+        List<String> ingredientList = Stream.of(ingredientRequest.ingredients().split(","))
+                .map(ingredient -> ingredient.contains("/")
+                        ? Arrays.stream(ingredient.split("/")).toList().get(0)
+                        : ingredient)
+                .toList();
+
+        return ingredientList.stream()
+                .map(ingredientName -> {
+                    if (ingredientsRepository.existsByName(ingredientName)) {
+                        return ingredientsRepository.findByName(ingredientName);
+                    }
+
+                    Ingredient ingredient = new Ingredient();
+                    ingredient.setName(ingredientName);
+
+                    SafetyLevel safetyLevel = safetyLevelsService.getUncategorizedSafetyLevel();
+                    ingredient.setSafetyLevel(safetyLevel);
+
+                    return ingredientsRepository.save(ingredient);
+                })
+                .toList();
     }
 }
