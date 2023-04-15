@@ -32,7 +32,7 @@ public class AdminIngredientsController {
     @PostMapping
     public ResponseEntity<Ingredient> createIngredient(@RequestBody IngredientCreateRequest ingredientCreateRequest) {
         return new ResponseEntity<>(
-                ingredientsService.createIngredient(ingredientCreateRequest),
+                ingredientsService.create(ingredientCreateRequest),
                 HttpStatus.CREATED);
     }
 
@@ -46,7 +46,7 @@ public class AdminIngredientsController {
         }
 
         return new ResponseEntity<>(
-                ingredientsService.updateIngredient(ingredientUpdateRequest),
+                ingredientsService.update(ingredientUpdateRequest),
                 HttpStatus.OK);
     }
 
@@ -54,7 +54,7 @@ public class AdminIngredientsController {
     public ResponseEntity<HttpStatus> deleteIngredient(
             @PathVariable Long id
     ) {
-        ingredientsService.deleteIngredient(id);
+        ingredientsService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

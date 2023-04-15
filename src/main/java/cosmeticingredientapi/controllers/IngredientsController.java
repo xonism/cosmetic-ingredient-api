@@ -30,14 +30,14 @@ public class IngredientsController {
     @GetMapping
     public ResponseEntity<List<Ingredient>> getAllIngredients() {
         return new ResponseEntity<>(
-                ingredientsService.getAllIngredients(),
+                ingredientsService.getAll(),
                 HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Ingredient> getIngredient(@PathVariable Long id) {
         return new ResponseEntity<>(
-                ingredientsService.getIngredientById(id),
+                ingredientsService.getById(id),
                 HttpStatus.OK);
     }
 
@@ -46,7 +46,7 @@ public class IngredientsController {
             @RequestBody IngredientRequest ingredientRequest
     ) {
         return new ResponseEntity<>(
-                ingredientsService.getIngredientsWithSafetyLevels(ingredientRequest),
+                ingredientsService.getWithSafetyLevels(ingredientRequest),
                 HttpStatus.OK);
     }
 }
