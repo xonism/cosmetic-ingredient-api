@@ -42,7 +42,9 @@ public class IngredientsController {
     }
 
     @PostMapping
-    public ResponseEntity<List<Ingredient>> getIngredientsWithSafetyLevels(@RequestBody IngredientRequest ingredientRequest) {
+    public ResponseEntity<List<Ingredient>> getIngredientsWithSafetyLevels(
+            @RequestBody IngredientRequest ingredientRequest
+    ) {
         return new ResponseEntity<>(
                 ingredientsService.getIngredientsWithSafetyLevels(ingredientRequest),
                 HttpStatus.OK);
