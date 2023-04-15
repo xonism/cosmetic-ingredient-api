@@ -28,11 +28,11 @@ public class IngredientsService {
         this.safetyLevelsService = safetyLevelsService;
     }
 
-    public List<Ingredient> getAllIngredients() {
+    public List<Ingredient> getAll() {
         return ingredientsRepository.findAll(SortUtils.SORT_ID_ASC);
     }
 
-    public Ingredient getIngredientById(Long id) {
+    public Ingredient getById(Long id) {
         Optional<Ingredient> ingredient = ingredientsRepository.findById(id);
         if (ingredient.isEmpty()) {
             throw new NotFoundByIdException(ENTITY_NAME);
@@ -40,7 +40,7 @@ public class IngredientsService {
         return ingredient.get();
     }
 
-    public Ingredient createIngredient(IngredientCreateRequest ingredientCreateRequest) {
+    public Ingredient create(IngredientCreateRequest ingredientCreateRequest) {
         Ingredient ingredient = new Ingredient();
         ingredient.setName(ingredientCreateRequest.name().trim().toLowerCase());
 
@@ -50,21 +50,21 @@ public class IngredientsService {
         return ingredientsRepository.save(ingredient);
     }
 
-    public Ingredient updateIngredient(IngredientUpdateRequest ingredientUpdateRequest) {
-        Ingredient ingredient = getIngredientById(ingredientUpdateRequest.id());
+    public Ingredient update(IngredientUpdateRequest ingredientUpdateRequest) {
+        Ingredient ingredient = getById(ingredientUpdateRequest.id());
         ingredient.setName(ingredientUpdateRequest.name().trim().toLowerCase());
 
-        SafetyLevel safetyLevel = safetyLevelsService.getSafetyLevelById(ingredientUpdateRequest.safetyLevelId());
+        SafetyLevel safetyLevel = safetyLevelsService.getById(ingredientUpdateRequest.safetyLevelId());
         ingredient.setSafetyLevel(safetyLevel);
 
         return ingredientsRepository.save(ingredient);
     }
 
-    public void deleteIngredient(Long id) {
+    public void delete(Long id) {
         ingredientsRepository.deleteById(id);
     }
 
-    public List<Ingredient> getIngredientsWithSafetyLevels(IngredientRequest ingredientRequest) {
+    public List<Ingredient> getWithSafetyLevels(IngredientRequest ingredientRequest) {
         List<String> ingredientList = Stream.of(ingredientRequest.ingredients().split(","))
                 .map(ingredient -> ingredient.contains("/")
                         ? Arrays.stream(ingredient.split("/")).toList().get(0)
@@ -80,7 +80,8 @@ public class IngredientsService {
                     Ingredient ingredient = new Ingredient();
                     ingredient.setName(ingredientName);
 
-                    SafetyLevel safetyLevel = safetyLevelsService.getUncategorizedSafetyLevel();
+                    SafetyLevel safetyLevel = safetyLevelsService.getByName(
+                            cosmeticingredientapi.enums.SafetyLevel.UNCATEGORIZED.name());
                     ingredient.setSafetyLevel(safetyLevel);
 
                     return ingredientsRepository.save(ingredient);
