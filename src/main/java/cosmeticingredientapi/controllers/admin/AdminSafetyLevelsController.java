@@ -34,7 +34,7 @@ public class AdminSafetyLevelsController {
             @RequestBody SafetyLevelCreateRequest safetyLevelCreateRequest
     ) {
         return new ResponseEntity<>(
-                safetyLevelsService.createSafetyLevel(safetyLevelCreateRequest),
+                safetyLevelsService.create(safetyLevelCreateRequest),
                 HttpStatus.CREATED);
     }
 
@@ -48,13 +48,13 @@ public class AdminSafetyLevelsController {
         }
 
         return new ResponseEntity<>(
-                safetyLevelsService.updateSafetyLevel(safetyLevelUpdateRequest),
+                safetyLevelsService.update(safetyLevelUpdateRequest),
                 HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<HttpStatus> deleteSafetyLevel(@PathVariable Long id) {
-        safetyLevelsService.deleteSafetyLevel(id);
+        safetyLevelsService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

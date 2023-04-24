@@ -22,11 +22,11 @@ public class SafetyLevelsService {
         this.safetyLevelRepository = safetyLevelRepository;
     }
 
-    public List<SafetyLevel> getAllSafetyLevels() {
+    public List<SafetyLevel> getAll() {
         return safetyLevelRepository.findAll(SortUtils.SORT_ID_ASC);
     }
 
-    public SafetyLevel getSafetyLevelById(Long id) {
+    public SafetyLevel getById(Long id) {
         Optional<SafetyLevel> safetyLevelById = safetyLevelRepository.findById(id);
         if (safetyLevelById.isEmpty()) {
             throw new NotFoundByIdException(ENTITY_NAME);
@@ -34,21 +34,25 @@ public class SafetyLevelsService {
         return safetyLevelById.get();
     }
 
-    public SafetyLevel createSafetyLevel(SafetyLevelCreateRequest safetyLevelCreateRequest) {
+    public SafetyLevel getByName(String name) {
+        return safetyLevelRepository.findByName(name);
+    }
+
+    public SafetyLevel create(SafetyLevelCreateRequest safetyLevelCreateRequest) {
         SafetyLevel safetyLevel = new SafetyLevel();
         safetyLevel.setName(safetyLevelCreateRequest.name().trim().toLowerCase());
 
         return safetyLevelRepository.save(safetyLevel);
     }
 
-    public SafetyLevel updateSafetyLevel(SafetyLevelUpdateRequest safetyLevelUpdateRequest) {
-        SafetyLevel safetyLevel = getSafetyLevelById(safetyLevelUpdateRequest.id());
+    public SafetyLevel update(SafetyLevelUpdateRequest safetyLevelUpdateRequest) {
+        SafetyLevel safetyLevel = getById(safetyLevelUpdateRequest.id());
         safetyLevel.setName(safetyLevelUpdateRequest.name().trim().toLowerCase());
 
         return safetyLevelRepository.save(safetyLevel);
     }
 
-    public void deleteSafetyLevel(Long id) {
+    public void delete(Long id) {
         safetyLevelRepository.deleteById(id);
     }
 }

@@ -23,10 +23,10 @@ public class Ingredient {
     private long id;
 
     @NotBlank
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "safety_level_id", referencedColumnName = "id")
+    @JoinColumn(name = "safety_level_id", referencedColumnName = "id", columnDefinition="UNSIGNED")
     private SafetyLevel safetyLevel;
 }

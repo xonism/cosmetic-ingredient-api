@@ -27,14 +27,14 @@ public class SafetyLevelsController {
     @GetMapping
     public ResponseEntity<List<SafetyLevel>> getAllSafetyLevels() {
         return new ResponseEntity<>(
-                safetyLevelsService.getAllSafetyLevels(),
+                safetyLevelsService.getAll(),
                 HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<SafetyLevel> getSafetyLevel(@PathVariable Long id) {
         return new ResponseEntity<>(
-                safetyLevelsService.getSafetyLevelById(id),
+                safetyLevelsService.getById(id),
                 HttpStatus.OK);
     }
 }

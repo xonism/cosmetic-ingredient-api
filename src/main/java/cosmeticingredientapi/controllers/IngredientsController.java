@@ -1,12 +1,15 @@
 package cosmeticingredientapi.controllers;
 
 import cosmeticingredientapi.models.Ingredient;
+import cosmeticingredientapi.records.IngredientRequest;
 import cosmeticingredientapi.services.IngredientsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,14 +30,23 @@ public class IngredientsController {
     @GetMapping
     public ResponseEntity<List<Ingredient>> getAllIngredients() {
         return new ResponseEntity<>(
-                ingredientsService.getAllIngredients(),
+                ingredientsService.getAll(),
                 HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Ingredient> getIngredient(@PathVariable Long id) {
         return new ResponseEntity<>(
-                ingredientsService.getIngredientById(id),
+                ingredientsService.getById(id),
+                HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<List<Ingredient>> getIngredientsWithSafetyLevels(
+            @RequestBody IngredientRequest ingredientRequest
+    ) {
+        return new ResponseEntity<>(
+                ingredientsService.getWithSafetyLevels(ingredientRequest),
                 HttpStatus.OK);
     }
 }
