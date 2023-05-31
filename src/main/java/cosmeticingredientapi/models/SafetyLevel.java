@@ -15,9 +15,10 @@ import lombok.Setter;
 @Entity
 @Table(name = "safety_level")
 public class SafetyLevel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @NotBlank
     @Column(unique = true, nullable = false)
