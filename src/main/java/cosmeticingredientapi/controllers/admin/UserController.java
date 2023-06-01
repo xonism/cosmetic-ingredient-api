@@ -13,13 +13,13 @@ import java.util.Map;
 public class UserController {
 
     @GetMapping("/api/v1/user")
-    public String user(@AuthenticationPrincipal OAuth2User principal) {
+    public String user(@AuthenticationPrincipal OAuth2User oAuth2User) {
         Map<String, Object> userInfo = new HashMap<>();
 
-        userInfo.put("id", principal.getAttribute("id"));
-        userInfo.put("login", principal.getAttribute("login"));
-        userInfo.put("avatarUrl", principal.getAttribute("avatar_url"));
-        userInfo.put("twoFactorAuthentication", principal.getAttribute("two_factor_authentication"));
+        userInfo.put("id", oAuth2User.getAttribute("id"));
+        userInfo.put("login", oAuth2User.getAttribute("login"));
+        userInfo.put("avatarUrl", oAuth2User.getAttribute("avatar_url"));
+        userInfo.put("twoFactorAuthentication", oAuth2User.getAttribute("two_factor_authentication"));
 
         return JsonUtils.getObjectAsJsonString(userInfo);
     }
