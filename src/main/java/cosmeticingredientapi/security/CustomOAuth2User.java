@@ -1,5 +1,6 @@
 package cosmeticingredientapi.security;
 
+import cosmeticingredientapi.constants.Constants;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -36,7 +37,7 @@ public class CustomOAuth2User implements OAuth2User {
     }
 
     public Integer getId() {
-        return oauth2User.getAttribute("id");
+        return oauth2User.getAttribute(Constants.ID);
     }
 
     public String getLogin() {
