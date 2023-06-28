@@ -11,12 +11,7 @@ public class JsonUtils {
 
     }
 
-    public static String getObjectAsJsonString(Object object) {
-        try {
-            return objectMapper.writeValueAsString(object);
-        } catch (JsonProcessingException exception) {
-            ExceptionUtils.throwActualException(exception);
-        }
-        return null;
+    public static String getObjectAsJsonString(Object object) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(object);
     }
 }
