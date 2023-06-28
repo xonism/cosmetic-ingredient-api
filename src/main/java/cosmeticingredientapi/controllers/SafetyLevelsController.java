@@ -32,7 +32,7 @@ public class SafetyLevelsController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<SafetyLevel> getSafetyLevel(@PathVariable Long id) {
+    public ResponseEntity<SafetyLevel> getSafetyLevel(@PathVariable long id) {
         return new ResponseEntity<>(
                 safetyLevelsService.getById(id),
                 HttpStatus.OK);

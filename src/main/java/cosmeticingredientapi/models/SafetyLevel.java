@@ -18,7 +18,7 @@ public class SafetyLevel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @NotBlank
     @Column(unique = true, nullable = false)

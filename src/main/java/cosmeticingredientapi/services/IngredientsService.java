@@ -32,7 +32,7 @@ public class IngredientsService {
         return ingredientsRepository.findAll(SortUtils.SORT_ID_ASC);
     }
 
-    public Ingredient getById(Long id) {
+    public Ingredient getById(long id) {
         Optional<Ingredient> ingredient = ingredientsRepository.findById(id);
         if (ingredient.isEmpty()) {
             throw new NotFoundByIdException(ENTITY_NAME);
@@ -60,7 +60,7 @@ public class IngredientsService {
         return ingredientsRepository.save(ingredient);
     }
 
-    public void delete(Long id) {
+    public void delete(long id) {
         ingredientsRepository.deleteById(id);
     }
 

@@ -26,7 +26,7 @@ public class SafetyLevelsService {
         return safetyLevelRepository.findAll(SortUtils.SORT_ID_ASC);
     }
 
-    public SafetyLevel getById(Long id) {
+    public SafetyLevel getById(long id) {
         Optional<SafetyLevel> safetyLevelById = safetyLevelRepository.findById(id);
         if (safetyLevelById.isEmpty()) {
             throw new NotFoundByIdException(ENTITY_NAME);
@@ -52,7 +52,7 @@ public class SafetyLevelsService {
         return safetyLevelRepository.save(safetyLevel);
     }
 
-    public void delete(Long id) {
+    public void delete(long id) {
         safetyLevelRepository.deleteById(id);
     }
 }

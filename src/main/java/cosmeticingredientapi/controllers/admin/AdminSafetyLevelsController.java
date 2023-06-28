@@ -40,10 +40,10 @@ public class AdminSafetyLevelsController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<SafetyLevel> updateSafetyLevel(
-            @PathVariable Long id,
+            @PathVariable long id,
             @RequestBody SafetyLevelUpdateRequest safetyLevelUpdateRequest
     ) {
-        if (!safetyLevelUpdateRequest.id().equals(id)) {
+        if (safetyLevelUpdateRequest.id() != id) {
             throw new IdMismatchException();
         }
 
@@ -53,7 +53,7 @@ public class AdminSafetyLevelsController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<HttpStatus> deleteSafetyLevel(@PathVariable Long id) {
+    public ResponseEntity<HttpStatus> deleteSafetyLevel(@PathVariable long id) {
         safetyLevelsService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
