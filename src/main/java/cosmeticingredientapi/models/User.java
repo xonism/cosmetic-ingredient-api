@@ -26,10 +26,6 @@ public class User {
     private String location;
 
     @NotBlank
-    @Column(nullable = false)
-    private String role;
-
-    @NotBlank
     @Column(name = "avatar_url", unique = true, nullable = false)
     private String avatarUrl;
 
