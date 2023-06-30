@@ -18,6 +18,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "ingredient")
 public class Ingredient {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -27,6 +28,6 @@ public class Ingredient {
     private String name;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "safety_level_id", referencedColumnName = "id", columnDefinition="UNSIGNED")
+    @JoinColumn(name = "safety_level_id", referencedColumnName = "id")
     private SafetyLevel safetyLevel;
 }

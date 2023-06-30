@@ -35,7 +35,7 @@ public class IngredientsController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Ingredient> getIngredient(@PathVariable Long id) {
+    public ResponseEntity<Ingredient> getIngredient(@PathVariable long id) {
         return new ResponseEntity<>(
                 ingredientsService.getById(id),
                 HttpStatus.OK);

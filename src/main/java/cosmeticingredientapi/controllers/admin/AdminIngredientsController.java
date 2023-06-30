@@ -38,10 +38,10 @@ public class AdminIngredientsController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<Ingredient> updateIngredient(
-            @PathVariable Long id,
+            @PathVariable long id,
             @RequestBody IngredientUpdateRequest ingredientUpdateRequest
     ) {
-        if (!ingredientUpdateRequest.id().equals(id)) {
+        if (ingredientUpdateRequest.id() != id) {
             throw new IdMismatchException();
         }
 
@@ -51,9 +51,7 @@ public class AdminIngredientsController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<HttpStatus> deleteIngredient(
-            @PathVariable Long id
-    ) {
+    public ResponseEntity<HttpStatus> deleteIngredient(@PathVariable long id) {
         ingredientsService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
