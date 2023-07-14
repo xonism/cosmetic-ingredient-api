@@ -1,4 +1,4 @@
-package springboot.cosmeticingredientapi;
+package cosmeticingredientapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
