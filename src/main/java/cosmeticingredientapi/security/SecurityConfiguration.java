@@ -4,6 +4,7 @@ import cosmeticingredientapi.constants.Constants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -14,7 +15,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    private final String[] publicEndpoints = new String[] {"/", "/login", "/error"};
+    private final String[] publicEndpoints = new String[]{"/", "/login", "/error", "/api/**"};
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -22,11 +23,11 @@ public class SecurityConfiguration {
             auth.requestMatchers(publicEndpoints).permitAll();
             auth.anyRequest().hasAuthority(Constants.ADMIN);
         });
-        httpSecurity.logout().logoutSuccessUrl("/login");
-        httpSecurity.exceptionHandling().defaultAuthenticationEntryPointFor(
-                new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
-                new AntPathRequestMatcher("/api/**"));
-        httpSecurity.oauth2Login();
+        httpSecurity.logout(logout -> logout.logoutUrl("/login"));
+//        httpSecurity.exceptionHandling().defaultAuthenticationEntryPointFor(
+//                new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
+//                new AntPathRequestMatcher("/api/**"));
+        httpSecurity.oauth2Login(Customizer.withDefaults());
         return httpSecurity.build();
     }
 }
